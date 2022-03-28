@@ -6,7 +6,7 @@ Az alkalmazás lehetőséget ad a felhasználóknak egy android applikáción ke
 
 ## Usecase
 
-![Usecase](usecase.png)
+![Usecase](Spec/specification/res/usecase.jpg)
 
 ## Részletek
 
