@@ -24,3 +24,30 @@ felhasználói fiókok nélkül. A user story-k pedig a következőek a use-case
 | 6 | User | Megtekinti a dobogós versenyzőket a már lezajlott versenyről|
 | 7 | User | Megtekinti a dobogós versenyzőket a már lezajlott versenyről|
 | 8 | User | Kommentet töröl egy versenyről|
+
+## Wireframes
+
+### Content
+
+HomeScreen:
+
+![Usecase](Spec/wireframes/HomeScreen.png)
+
+DetailsView: 
+
+![Usecase](Spec/wireframes/DetailsView.png)
+
+![Usecase](Spec/wireframes/DetailsView2.png)
+
+### Lo-fi
+
+HomeScreen:
+
+![Usecase](Spec/wireframes/HomeScreenLofi.png)
+
+DetailsView: 
+
+![Usecase](Spec/wireframes/DetailsViewLofi.png)
+
+![Usecase](Spec/wireframes/DetailsView2Lofi.png)
+
