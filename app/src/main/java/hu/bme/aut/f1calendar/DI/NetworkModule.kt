@@ -1,4 +1,4 @@
-package hu.bme.aut.f1calendar.Network
+package hu.bme.aut.f1calendar.DI
 
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -6,5 +6,5 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetwrokService {
+class NetworkModule {
 }
