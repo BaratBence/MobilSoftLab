@@ -65,3 +65,5 @@ Az git log ennek megfelelően a következő képpen néz ki a main-be merge-elé
 ![Gitlog](Doc/res/Log.PNG)
 
 A merge-elés után a CI futási eredménye a következő: 
+
+![CI](Doc/res/CI.PNG)
