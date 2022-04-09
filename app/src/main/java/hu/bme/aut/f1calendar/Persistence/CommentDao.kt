@@ -1,4 +1,4 @@
 package hu.bme.aut.f1calendar.Persistence
 
-class CommentDao {
+interface CommentDao {
 }
