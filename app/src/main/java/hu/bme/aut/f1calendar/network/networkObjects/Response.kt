@@ -5,6 +5,8 @@ import hu.bme.aut.f1calendar.model.Comment
 import hu.bme.aut.f1calendar.model.Race
 import hu.bme.aut.f1calendar.model.RaceListItem
 import hu.bme.aut.f1calendar.model.Session
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Response(
     val MRData: MRData
@@ -26,10 +28,7 @@ class Response(
                     locality = race.Circuit.Location.locality,
                     raceName = race.raceName,
                     circuitName = race.Circuit.circuitName,
-                    eventID = race.season.toString() + " season round " + race.round.toString() + " " + DateFormat.format(
-                        "MMMM",
-                        race.date
-                    ),
+                    eventID = race.season.toString() + " season round " + race.round.toString() + " " + DateFormat.format("MMMM", race.date),
                     first = if (race.Results == null) "TBD" else race.Results[0].Driver.code,
                     second = if (race.Results == null) "TBD" else race.Results[1].Driver.code,
                     third = if (race.Results == null) "TBD" else race.Results[2].Driver.code,
@@ -53,7 +52,19 @@ class Response(
 
     companion object {
         fun mock(): Response {
-            return  Response(MRData(RaceTable(listOf(Races()))))
+            return  Response(MRData(RaceTable(listOf(Races(
+                season = 2022,
+                round = 28,
+                raceName = "Test Grand Prix",
+                date =  Date(),
+                time = "16:59",
+                Circuit = Circuit(Location("NoWhere"),"TestTrack"),
+                FirstPractice = Sessions(Date(),"15:00"),
+                SecondPractice = Sessions(Date(), "14:00"),
+                ThirdPractice = Sessions(Date(), "17:00"),
+                Qualifying = Sessions(Date(),"18:00"),
+                Results = listOf(Results(Driver("TEST1")), Results(Driver("TEST2")), Results(Driver("TEST3")))
+            )))))
         }
     }
 
