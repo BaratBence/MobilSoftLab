@@ -1,0 +1,454 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "F1 calendar"
+host: "ergast.com"
+basePath: "/api"
+tags:
+- name: "F1 Races"
+  description: "Access to Petstore orders"
+schemes:
+- "https"
+- "http"
+paths:
+  /f1.json:
+    get:
+      tags:
+      - "F1 Races"
+      summary: "Returns every race"
+      description: "The server can only return 1000 entries per request"
+      parameters:
+      - name: "limit"
+        in: "query"
+        description: "Maximum amount of races to return"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "offset"
+        in: "query"
+        description: "From which race the starts from"
+        required: false
+        type: "integer"
+        format: "int64"
+      produces:
+      - "application/json"
+      responses:
+        "400":
+          description: "Service is not available"
+        "200":
+          description: "All races"
+          schema:
+              $ref: "#/definitions/Response"
+  /f1/current.json:
+    get:
+      tags:
+      - "F1 Races"
+      summary: "Returns every race from the current season"
+      operationId: "addPet"
+      produces:
+      - "application/json"
+      responses:
+        "400":
+          description: "Srvice is not available"
+        "200":
+          description: "All races from the current season"
+          schema:
+            $ref: "#/definitions/ResponseWS"
+  /f1/current/{round}.json:
+    get:
+      tags:
+      - "F1 Races"
+      summary: "Returns a race from the current season"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "round"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Given round does not exist"
+        "404":
+          description: "Service is not available"
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseWSWR"
+  /f1/{season}/{round}.json:
+    get:
+      tags:
+      - "F1 Races"
+      summary: "Get a certain race from any season"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "season"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "round"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Given round or season does not exist"
+        "404":
+          description: "Service is not available"
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/ResponseWSWR"
+  /f1/{season}/{round}/results.json:
+    get:
+      tags:
+      - "F1 Races"
+      summary: "Get a certain race result from any season"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "season"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "round"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Given round or season does not exist"
+        "404":
+          description: "Service is not available"
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/ResponseWSResult"
+  /f1:
+    post:
+      tags:
+      - "F1 Races"
+      summary: "Adds a new race to the database"
+      parameters:
+      - in: body
+        name: race
+        schema:
+          $ref: "#/definitions/Race"
+      responses:
+        "404":
+          description: "Service is not available"
+        "405":
+          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+  /f1/{season}/{round}:
+    delete:
+      tags:
+      - "F1 Races"
+      summary: "Deletes an F1 race"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "season"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "round"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid season/round supplied"
+        "404":
+          description: "Service not found"
+    put:
+      tags:
+      - "F1 Races"
+      summary: "Updates an F1 race"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "season"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "round"
+        in: "path"
+        description: "Round of the required race"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: body
+        name: race
+        schema:
+            $ref: "#/definitions/Race"
+      responses:
+        "400":
+          description: "Invalid season/round supplied"
+        "404":
+          description: "Service is not available"
+        "405":
+          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+definitions:
+  MRData:
+    type: "object"
+    properties:
+      xmlns:
+        type: "string"
+      series:
+        type: "string"
+      url:
+        type: "string"
+      limit:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
+      RaceTable:
+        $ref: "#/definitions/RaceTable"
+  Race:
+    type: "object"
+    properties:
+      season:
+        type: "integer"
+        format: "int64"
+      round:
+        type: "integer"
+        format: "int64"
+      url:
+        type: "string"
+      raceName:
+        type: "string"
+      Circuit:
+        $ref: "#/definitions/Circuit"
+      date:
+        type: "integer"
+        format: "date"
+      time:
+        type: "integer"
+        format: "time"
+      FirstPractice:
+        $ref: "#/definitions/Session"
+      SecondPractice:
+        $ref: "#/definitions/Session"
+      ThirdPractice:
+        $ref: "#/definitions/Session"
+      Qualifying:
+        $ref: "#/definitions/Session"
+  Circuit:
+    type: "object"
+    properties:
+      cicuitId:
+        type: "string"
+      url:
+        type: "string"
+      circuitName:
+        type: "string"
+      Location:
+        $ref: "#/definitions/Location"
+  Location:
+    type: "object"
+    properties:
+      lat:
+        type: "integer"
+        format: "long"
+      long:
+        type: "integer"
+        format: "long"
+      locality:
+        type: "string"
+      country:
+        type: "string"
+  Session:
+    type: "object"
+    properties:
+      date:
+        type: "integer"
+        format: "date"
+      time:
+        type: "integer"
+        format: "time"
+  Response:
+    type: "object"
+    properties:
+      MRData:
+        $ref: "#/definitions/MRData"
+  RaceTable:
+    type: "object"
+    properties:
+      Races:
+        type: "array"
+        items:
+          $ref: "#/definitions/Race"
+  RaceTableWS:
+    type: "object"
+    properties:
+      season:
+        type: "integer"
+        format: "int64"
+      Races:
+        type: "array"
+        items:
+          $ref: "#/definitions/Race"
+  RaceTableWSWR:
+    type: "object"
+    properties:
+      season:
+        type: "integer"
+        format: "int64"
+      round:
+        type: "integer"
+        format: "int64"
+      Races:
+        type: "array"
+        items:
+          $ref: "#/definitions/Race"
+  MRDataWS:
+    type: "object"
+    properties:
+      xmlns:
+        type: "string"
+      series:
+        type: "string"
+      url:
+        type: "string"
+      limit:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
+      RaceTable:
+        $ref: "#/definitions/RaceTableWS"
+  MRDataWSWR:
+    type: "object"
+    properties:
+      xmlns:
+        type: "string"
+      series:
+        type: "string"
+      url:
+        type: "string"
+      limit:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
+      RaceTable:
+        $ref: "#/definitions/RaceTableWSWR"
+  ResponseWS:
+    type: "object"
+    properties:
+      MRData:
+        $ref: "#/definitions/MRDataWS"
+  ResponseWSWR:
+    type: "object"
+    properties:
+      MRData:
+        $ref: "#/definitions/MRDataWSWR"
+  RaceWR:
+    type: "object"
+    properties:
+      season:
+        type: "integer"
+        format: "int64"
+      round:
+        type: "integer"
+        format: "int64"
+      url:
+        type: "string"
+      raceName:
+        type: "string"
+      Circuit:
+        $ref: "#/definitions/Circuit"
+      date:
+        type: "integer"
+        format: "date"
+      time:
+        type: "integer"
+        format: "time"
+      Result:
+        $ref: "#/definitions/Result"
+  Result:
+    type: "object"
+    properties:
+      Driver:
+        type: "array"
+        items:
+          $ref: "#/definitions/Driver"
+  Driver:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+  MRDataWSWResult:
+    type: "object"
+    properties:
+      xmlns:
+        type: "string"
+      series:
+        type: "string"
+      url:
+        type: "string"
+      limit:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
+      RaceTable:
+        $ref: "#/definitions/RaceTableWSWResult"
+  RaceTableWSWResult:
+    type: "object"
+    properties:
+      season:
+        type: "integer"
+        format: "int64"
+      round:
+        type: "integer"
+        format: "int64"
+      Races:
+        type: "array"
+        items:
+          $ref: "#/definitions/RaceWR"
+  ResponseWSResult:
+    type: "object"
+    properties:
+      MRData:
+        $ref: "#/definitions/MRDataWSWResult"
+  
