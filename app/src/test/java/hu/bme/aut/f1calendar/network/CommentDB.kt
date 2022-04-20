@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import hu.bme.aut.f1calendar.Persistence.CommentDataBase
+import hu.bme.aut.f1calendar.persistence.CommentDataBase
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])

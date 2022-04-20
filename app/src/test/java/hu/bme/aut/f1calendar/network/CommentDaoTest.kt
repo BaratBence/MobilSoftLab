@@ -1,7 +1,7 @@
 package hu.bme.aut.f1calendar.network
 
-import hu.bme.aut.f1calendar.Model.Comment
-import hu.bme.aut.f1calendar.Persistence.CommentDao
+import hu.bme.aut.f1calendar.model.Comment
+import hu.bme.aut.f1calendar.persistence.CommentDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

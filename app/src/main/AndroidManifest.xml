@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hu.bme.aut.f1calendar">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".F1CalendarApp"
         android:allowBackup="true"
@@ -11,12 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.F1Calendar">
         <activity
-            android:name=".UI.Main.MainActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/Theme.F1Calendar" />
-        <activity
-            android:name=".UI.Main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
