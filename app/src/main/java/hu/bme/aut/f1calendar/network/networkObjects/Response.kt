@@ -29,9 +29,9 @@ class Response(
                     raceName = race.raceName,
                     circuitName = race.Circuit.circuitName,
                     eventID = race.season.toString() + " season round " + race.round.toString() + " " + DateFormat.format("MMMM", race.date),
-                    first = if (race.Results == null) "TBD" else race.Results[0].Driver.code,
-                    second = if (race.Results == null) "TBD" else race.Results[1].Driver.code,
-                    third = if (race.Results == null) "TBD" else race.Results[2].Driver.code,
+                    first = if (race.Results == null) "TBD" else race.Results[0].Driver.produceDriver(),
+                    second = if (race.Results == null) "TBD" else race.Results[1].Driver.produceDriver(),
+                    third = if (race.Results == null) "TBD" else race.Results[2].Driver.produceDriver(),
                     sessions = race.produceSession(),
                     comments = ArrayList<Comment>()
                 )
@@ -63,7 +63,8 @@ class Response(
                 SecondPractice = Sessions(Date(), "14:00"),
                 ThirdPractice = Sessions(Date(), "17:00"),
                 Qualifying = Sessions(Date(),"18:00"),
-                Results = listOf(Results(Driver("TEST1")), Results(Driver("TEST2")), Results(Driver("TEST3")))
+                Sprint = Sessions(Date(),"18:00"),
+                Results = listOf(Results(Driver("TEST1", "Test1")), Results(Driver("TEST2","test2")), Results(Driver("TEST3", "test3")))
             )))))
         }
     }
