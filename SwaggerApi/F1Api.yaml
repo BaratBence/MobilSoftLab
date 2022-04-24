@@ -413,6 +413,8 @@ definitions:
     properties:
       code:
         type: "string"
+      familyName:
+        type: "string"
   MRDataWSWResult:
     type: "object"
     properties:
