@@ -1,7 +1,10 @@
 package hu.bme.aut.f1calendar.network.networkObjects
 
 import android.text.format.DateFormat
+import com.google.gson.internal.bind.util.ISO8601Utils.format
 import hu.bme.aut.f1calendar.model.Session
+import java.lang.String.format
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class Races (
