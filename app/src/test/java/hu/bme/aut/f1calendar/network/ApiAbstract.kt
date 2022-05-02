@@ -1,5 +1,6 @@
 package hu.bme.aut.f1calendar.network
 
+import android.util.Log
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
@@ -12,6 +13,7 @@ import org.junit.runners.JUnit4
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
 @RunWith(JUnit4::class)

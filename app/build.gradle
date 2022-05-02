@@ -42,6 +42,13 @@ android {
     buildFeatures {
         dataBinding true
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res', 'src\\main\\resources'
+            }
+        }
+    }
 
 }
 
@@ -77,6 +84,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.2"
 
     //test
+    implementation "com.github.skydoves:sandwich:1.2.4"
     testImplementation 'org.robolectric:robolectric:4.6'
     androidTestImplementation("androidx.test:core:1.4.0")
     testImplementation "androidx.test:core:1.4.0"
