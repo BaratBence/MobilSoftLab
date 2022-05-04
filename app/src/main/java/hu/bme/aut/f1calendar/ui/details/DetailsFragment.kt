@@ -12,6 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import hu.bme.aut.f1calendar.R
 import hu.bme.aut.f1calendar.adapter.CommentAdapter
@@ -22,6 +25,7 @@ import hu.bme.aut.f1calendar.model.Comment
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
     private val viewModel: RaceDetailsViewModel by viewModels()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +33,7 @@ class DetailsFragment : Fragment() {
             DetailsFragmentArgs.fromBundle(requireArguments()).race.season,
             DetailsFragmentArgs.fromBundle(requireArguments()).race.round
         )
+        firebaseAnalytics = Firebase.analytics
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
