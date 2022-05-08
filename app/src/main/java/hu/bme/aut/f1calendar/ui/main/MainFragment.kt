@@ -1,6 +1,7 @@
 package hu.bme.aut.f1calendar.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.util.StatsLog.logEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import hu.bme.aut.f1calendar.R
 import hu.bme.aut.f1calendar.adapter.RaceListAdapter
+import hu.bme.aut.f1calendar.createLog
 import hu.bme.aut.f1calendar.databinding.FragmentMainBinding
 import hu.bme.aut.f1calendar.model.RaceListItem
 
@@ -24,37 +26,35 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private val viewModel: RaceViewModel by viewModels()
+
+    //Analytics
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var started: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAll()
+        //Analytics
         firebaseAnalytics = Firebase.analytics
-        logEvent("MainFragment","onCreate")
+        started = System.currentTimeMillis().toInt()
+        firebaseAnalytics.createLog("appStarted","Created MainFragment","MainFragment", FirebaseAnalytics.Event.APP_OPEN)
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main, container, false)
+        //CrashLytics
         //throw RuntimeException("Test Crash")
-        val adapter = RaceListAdapter(ArrayList<RaceListItem>(), binding)
+        val adapter = RaceListAdapter(ArrayList<RaceListItem>(), binding, firebaseAnalytics,started)
         binding.rvRaces.adapter = adapter
         binding.rvRaces.layoutManager = LinearLayoutManager(binding.root.context)
 
         viewModel.getRaceRepositoryLiveData().observe(viewLifecycleOwner) {
-                t -> adapter.setRaces(t)//Log.d("Info", t.size.toString())
+                t -> adapter.setRaces(t)
         }
 
         return binding.root
+
     }
 
-    fun logEvent(id: String,name: String ) {
-        val bundle = Bundle()
-        FirebaseAnalytics.Event.LOGIN
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image")
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
 }

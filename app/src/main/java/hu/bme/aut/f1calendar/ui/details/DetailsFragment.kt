@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import hu.bme.aut.f1calendar.R
 import hu.bme.aut.f1calendar.adapter.CommentAdapter
+import hu.bme.aut.f1calendar.createLog
 import hu.bme.aut.f1calendar.databinding.FragmentDetailsBinding
 import hu.bme.aut.f1calendar.model.Comment
 
@@ -25,7 +26,10 @@ import hu.bme.aut.f1calendar.model.Comment
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
     private val viewModel: RaceDetailsViewModel by viewModels()
+
+    //analytics
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var started = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +38,41 @@ class DetailsFragment : Fragment() {
             DetailsFragmentArgs.fromBundle(requireArguments()).race.round
         )
         firebaseAnalytics = Firebase.analytics
+        started = System.currentTimeMillis().toInt()
+        firebaseAnalytics.createLog(
+            "detailsCreated",
+            "created detailsFragment",
+            "DetailsFragment",
+            "detailsView"
+        )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
 
-        val adapter = CommentAdapter(ArrayList(), binding)
+        //is this needed?
+        val adapter = CommentAdapter(ArrayList(), binding, firebaseAnalytics)
         binding.rvComments.adapter = adapter
         binding.rvComments.layoutManager = LinearLayoutManager(binding.root.context)
 
         binding.addCommentButton.setOnClickListener {
-            viewModel.insertComment(Comment(comment = binding.commentEditText.text.toString(), raceID = binding.race!!.eventID))
+            firebaseAnalytics.createLog(
+                "commentAdd",
+                "comment added",
+                "DetailsFragment",
+                "addComment"
+            )
+            viewModel.insertComment(
+                Comment(
+                    comment = binding.commentEditText.text.toString(),
+                    raceID = binding.race!!.eventID
+                )
+            )
         }
 
         val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
@@ -54,22 +81,31 @@ class DetailsFragment : Fragment() {
                 val pos = viewHolder.adapterPosition
                 viewModel.deleteComment(adapter.findOneByPos(pos))
                 adapter.notifyDataSetChanged()
+                firebaseAnalytics.createLog(
+                    "commentDelete",
+                    "comment deleted",
+                    "DetailsFragment",
+                    "DeleteComment"
+                )
             }
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(binding.rvComments)
 
-        viewModel.getRaceRepositoryLiveData().observe(viewLifecycleOwner) {
-                t ->
+        viewModel.getRaceRepositoryLiveData().observe(viewLifecycleOwner) { t ->
             run {
                 binding.race = t
                 adapter.setComments(t.comments)
-                Log.d("INFO","dataset changed")
             }
         }
 
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAnalytics.createLog("detailsLeft","After " + (System.currentTimeMillis().toInt() - started).toString() + " milliseconds", "DetailsFragment","ViewMain")
     }
 
 }
