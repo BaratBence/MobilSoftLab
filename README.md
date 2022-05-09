@@ -67,3 +67,17 @@ Az git log ennek megfelelően a következő képpen néz ki a main-be merge-elé
 A merge-elés után a CI futási eredménye a következő: 
 
 ![CI](Doc/res/CI.PNG)
+
+# Analytics:
+
+Consle log-ok az applikáció futtatása közben: 
+
+![ConsoleLog](Doc/res/ConsoleLog.PNG)
+
+Eventek a kontrol panelen (teszt evenetek):
+
+![Events](Doc/res/Events.PNG)
+
+CrashLytics eredmény (MainFragmentben init throw):
+
+![Crash](Doc/res/CrashLytics.PNG)
