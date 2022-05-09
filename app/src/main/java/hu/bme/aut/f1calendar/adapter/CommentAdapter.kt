@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import hu.bme.aut.f1calendar.databinding.CommentRowBinding
 import hu.bme.aut.f1calendar.databinding.FragmentDetailsBinding
 import hu.bme.aut.f1calendar.model.Comment
 
-class CommentAdapter(private var comments: ArrayList<Comment>, private val fragmentDetailsBinding: FragmentDetailsBinding):
+class CommentAdapter(private var comments: ArrayList<Comment>, private val fragmentDetailsBinding: FragmentDetailsBinding, private val firebaseAnalytics: FirebaseAnalytics):
     RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: CommentRowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {

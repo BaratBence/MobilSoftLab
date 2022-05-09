@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870239476369",
+    "project_id": "mobilszoftlab",
+    "storage_bucket": "mobilszoftlab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870239476369:android:ee0a438a3b96ff0a143d30",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.f1calendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870239476369-8u9b5equiaefqttk5rgkq5k3ikd3njov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ8RUAiga8Rhi5FC_y_zvnS9Tiw3tmbRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870239476369-8u9b5equiaefqttk5rgkq5k3ikd3njov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
